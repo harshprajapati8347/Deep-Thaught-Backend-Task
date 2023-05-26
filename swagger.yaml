@@ -1,0 +1,158 @@
+openapi: 3.0.0
+info:
+  title: Nudge Creation API
+  version: 1.0.0
+  description: API documentation for managing events
+paths:
+  name: Nudge Creation API
+  description: API documentation for managing events
+  /events/{id}:
+    get:
+      summary: Get an existing event by its unique ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The unique ID of the event
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '404':
+          description: Event not found
+  /events:
+    get:
+      summary: Get an event by its recency & paginate results by page number and limit of events per page
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: The page number
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: The number of events per page
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Event'
+                  totalPages:
+                    type: integer
+                  currentPage:
+                    type: integer
+  /events:
+    post:
+      summary: Create an event and returns the Id of the event i.e. created
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '500':
+          description: Internal server error
+  /events/{id}:
+    delete:
+      summary: Delete an event based on its Unique Id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The unique ID of the event
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: string
+                    description: Event deletion confirmation
+        '404':
+          description: Event not found
+components:
+  schemas:
+    Event:
+      type: object
+      properties:
+        type:
+          type: string
+          description: The type of the event
+        name:
+          type: string
+          description: The name of the event
+        tagline:
+          type: string
+          description: The tagline of the event
+        schedule:
+          type: string
+          format: date-time
+          description: The schedule of the event
+        description:
+          type: string
+          description: The description of the event
+        files:
+          type: object
+          properties:
+            data:
+              type: string
+              format: binary
+              description: The data of the files associated with the event
+            contentType:
+              type: string
+              description: The content type of the files associated with the event
+        moderator:
+          type: string
+          description: The moderator of the event
+        category:
+          type: string
+          description: The category of the event
+        sub_category:
+          type: string
+          description: The sub-category of the event
+        rigor_rank:
+          type: integer
+          description: The rigor rank of the event
+        attendees:
+          type: array
+          items:
+            type: string
+          description: The attendees of the event
+      required:
+        - type
+        - name
+        - tagline
+        - schedule
+        - description
+        - moderator
+        - category
+        - sub_category
+        - rigor_rank
+        - attendees
+    
