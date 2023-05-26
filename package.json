@@ -19,6 +19,9 @@
     "swagger-ui-express": "^4.6.3",
     "yamljs": "^0.3.0"
   },
+   "engines": {
+    "node": ">=14 <15"
+  },
   "devDependencies": {
     "nodemon": "^2.0.22"
   }
